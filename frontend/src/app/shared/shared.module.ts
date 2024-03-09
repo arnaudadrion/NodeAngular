@@ -11,6 +11,10 @@ import { MaterialModule } from './material.module';
     CommonModule,
     MaterialModule,
     ReactiveFormsModule
+  ],
+  exports: [
+    MaterialModule,
+    ReactiveFormsModule,
   ]
 })
 export class SharedModule { }
