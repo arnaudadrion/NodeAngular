@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Observable, map, startWith, tap } from 'rxjs';
-import { confirmEqualValidator } from '../../validators/confirm-equal.validator';
+import { confirmEqualValidator } from '../../../validators/confirm-equal.validator';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,7 @@ export class LoginComponent {
 
   loading = false;
   
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.initFormControls();
@@ -155,7 +157,36 @@ export class LoginComponent {
   }
 
   onSubmitForm() {
-    
+    console.log(this.signUpForm.value)
+    if (this.mainForm.value.choiceForm === 'login') {
+      console.log(this.loginForm.value)
+      this.loading = true;
+      this.authService.logUser(this.loginForm.value).pipe(
+
+      );
+    } else {
+      this.loading = true;
+      let data = {
+        firstname: this.signUpForm.value.firstname,
+        lastname: this.signUpForm.value.lastname,
+        email: this.emailForm.value.email,
+        password: this.emailForm.value.password
+      }
+      this.authService.saveUserInfo(data).pipe(
+          tap(saved => {
+              this.loading = false;
+              if (saved) {
+                this.resetForm();
+              } else {
+                console.error('Echec de l\'enregistrement');
+              }
+          })
+        ).subscribe();
+    }
   }
-  
+
+  private resetForm() {
+    this.mainForm.reset();
+    this.choiceFormCtrl.patchValue('login');
+  }
 }

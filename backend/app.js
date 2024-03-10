@@ -1,7 +1,6 @@
 const express = require('express');
 
-// const stuffRoutes = require('./routes/stuff');
-// const userRoutes = require('./routes/user');
+const userRoutes = require('./routes/user');
 
 const mongoose = require('mongoose');
 
@@ -9,7 +8,7 @@ const app = express();
 
 const path = require('path');
 
-mongoose.connect('mongodb://127.0.0.1:27017/test')
+mongoose.connect('mongodb://admin:password@localhost:27017')
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
