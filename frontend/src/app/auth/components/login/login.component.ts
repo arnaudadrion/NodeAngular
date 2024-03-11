@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Observable, map, startWith, tap } from 'rxjs';
-import { confirmEqualValidator } from '../../../validators/confirm-equal.validator';
-import { AuthService } from '../../../services/auth.service';
+import { confirmEqualValidator } from '../../../core/validators/confirm-equal.validator';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -157,13 +157,24 @@ export class LoginComponent {
   }
 
   onSubmitForm() {
-    console.log(this.signUpForm.value)
     if (this.mainForm.value.choiceForm === 'login') {
-      console.log(this.loginForm.value)
       this.loading = true;
-      this.authService.logUser(this.loginForm.value).pipe(
 
-      );
+      let data = {
+        email: this.loginForm.value.loginEmail,
+        password: this.loginForm.value.loginPassword
+      }
+      
+      this.authService.logUser(data).pipe(
+        tap(logged => {
+          this.loading = false;
+          if (logged) {
+            this.resetForm();
+          } else {
+            console.error('Echec de l\'enregistrement');
+          }
+      })
+      ).subscribe();
     } else {
       this.loading = true;
       let data = {

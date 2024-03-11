@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, delay, catchError, of } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { Observable, map, delay, catchError, of, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { User } from '../models/user.model';
 
 @Injectable({
@@ -13,8 +13,8 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  saveUserInfo(formValue: User): Observable<boolean> {
-    return this.http.post(`${environment.apiUrl}/auth/signup`, formValue).pipe(
+  saveUserInfo(data: Object): Observable<boolean> {
+    return this.http.post(`${environment.apiUrl}/auth/signup`, data).pipe(
       map(() => true),
       delay(1000),
       catchError(() => of(false).pipe(
@@ -25,6 +25,11 @@ export class AuthService {
 
   logUser(data: Object): Observable<boolean> {
     return this.http.post(`${environment.apiUrl}/auth/login`, data).pipe(
+      tap(response => {
+        if ('token' in response) {
+          this.token = `${response.token}`;
+        }
+      }),
       map(() => true),
       delay(1000),
       catchError(() => of(false).pipe(
