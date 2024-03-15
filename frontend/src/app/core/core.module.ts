@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { httpInterceptorProviders } from './interceptors';
 import * as fr from '@angular/common/locales/fr';
+import { TokenService } from './services/token.service';
 
 
 
@@ -27,7 +28,8 @@ import * as fr from '@angular/common/locales/fr';
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr-FR' },
-    httpInterceptorProviders
+    httpInterceptorProviders,
+    TokenService
   ]
 })
 export class CoreModule {

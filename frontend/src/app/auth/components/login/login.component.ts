@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { confirmEqualValidator } from '../../../core/validators/confirm-equal.validator';
 import { AuthService } from '../../../core/services/auth.service';
+import { ICredential } from '../../../core/interfaces/credential.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+
   mainForm!: FormGroup;
 
   choiceFormCtrl!: FormControl;
@@ -36,7 +39,7 @@ export class LoginComponent {
 
   loading = false;
   
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.initFormControls();
@@ -160,16 +163,17 @@ export class LoginComponent {
     if (this.mainForm.value.choiceForm === 'login') {
       this.loading = true;
 
-      let data = {
+      const credentials: ICredential = {
         email: this.loginForm.value.loginEmail,
         password: this.loginForm.value.loginPassword
       }
       
-      this.authService.logUser(data).pipe(
+      this.authService.logUser(credentials).pipe(
         tap(logged => {
           this.loading = false;
           if (logged) {
             this.resetForm();
+            this.router.navigateByUrl('/');
           } else {
             console.error('Echec de l\'enregistrement');
           }
@@ -177,7 +181,7 @@ export class LoginComponent {
       ).subscribe();
     } else {
       this.loading = true;
-      let data = {
+      const data = {
         firstname: this.signUpForm.value.firstname,
         lastname: this.signUpForm.value.lastname,
         email: this.emailForm.value.email,

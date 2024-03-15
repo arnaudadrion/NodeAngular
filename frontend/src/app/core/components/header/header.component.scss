@@ -1,8 +1,30 @@
-ul {
-    list-style: none;
-}
 
-li {
+mat-toolbar {
+    height: 100px;
+    // position: absolute;
     display: inline-block;
-    margin-right: 20px;
+
+    .left {
+        float: left;
+    }
+
+    .middle {
+        ul {
+            list-style: none;
+        }
+        
+        li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+    }
+    
+
+    .right{
+        float: right;
+        p {
+            padding: 0;
+            margin: 0;
+        }
+    }
 }

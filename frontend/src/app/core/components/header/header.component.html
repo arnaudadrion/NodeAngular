@@ -1,7 +1,20 @@
 <mat-toolbar color="primary">
-    <span>FrontEnd</span>
-    <ul>
+    <div class="left">FrontEnd</div>
+    <div class="middle">
+        <ul>
       
-    </ul>
-    <p><a href="/auth/login">Signup/login</a></p>
+        </ul>
+    </div>
+    
+    <ng-container *ngIf="isLogged$ | async; else elseBlock">
+        <div class="right">
+            <p *ngIf="appUser$ | async as appUser">{{ appUser|username }}</p>
+            <button (click)="logout()">Logout</button>
+        </div>
+    </ng-container>
+    <ng-template #elseBlock>
+        <div class="right">
+            <p><a href="/auth/login">Signup/login</a></p>
+        </div>
+    </ng-template>
 </mat-toolbar>
