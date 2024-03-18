@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-
+const auth = require('../middleware/auth');
 const todolistCtrl = require('../controllers/todolist');
 
-router.post('/todo', todolistCtrl.list);
-router.post('/todo/add', userCtrl.add);
-router.post('/todo/delete', todolistCtrl.delete);
+router.post('/list', auth, todolistCtrl.list);
+router.post('/add', auth, userCtrl.add);
+router.post('/delete', auth, todolistCtrl.delete);
 
 
 module.exports = router;

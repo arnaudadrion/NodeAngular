@@ -11,7 +11,7 @@ export class AuthGuard {
               private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const isLogged = this.tokenService.isLogged();
+    const isLogged = this.tokenService.getToken();
     if (isLogged) {
       return true;
     } else {
