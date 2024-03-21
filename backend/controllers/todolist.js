@@ -5,7 +5,7 @@ const todolist = require('../models/todolist');
 
 exports.list = (req, res, next) => {
     Todolist.findOne({
-        user_id: req.params.user_id
+        userId: req.auth.userId
     }).then(
         (todolist) => {
             res.status(200).json(todolist);
@@ -19,10 +19,34 @@ exports.list = (req, res, next) => {
     );
 };
 
-exports.add = (req, res, next) => {
-    
+exports.addTask = (req, res, next) => {
+    Todolist.findOne({
+        userId: req.auth.userId
+    }).then(
+        (todolist) => {
+            console.log(todolist)
+            if (!todolist) {
+                todolist = new Todolist({
+                    userId: req.auth.userId,
+                    list: [ req.body.task ]
+                });
+console.log(todolist)
+                thing.save()
+                    .then(() => { console.log(546);res.status(201).json({message: 'Tache enregistrée !'})})
+                    .catch(error => { res.status(400).json( { error })})
+            } else {
+
+            }
+        }
+    ).catch(
+        (error) => {
+            res.status(40).json({
+                error: error
+            })
+        }
+    )
 };
 
-exports.delete = (req, res, next) => {
+exports.deleteTask = (req, res, next) => {
     
 };

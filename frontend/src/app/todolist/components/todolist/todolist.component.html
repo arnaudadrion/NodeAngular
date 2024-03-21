@@ -1,1 +1,9 @@
-<p>todolist works!</p>
+<h2>Ma TodoList <span><button (click)="openModal()">Ajouter une tache</button></span></h2>
+<div *ngIf="todolist$ | async as todolist; else elseBlock">
+    <p *ngFor="let listItem of todolist.list">{{ listItem }}</p>
+</div>
+
+<ng-template #elseBlock>
+    <p>Pas de liste</p>
+</ng-template>
+

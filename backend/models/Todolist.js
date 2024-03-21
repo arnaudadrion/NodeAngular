@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
 
 const todolistSchema = mongoose.Schema({
-    user_id: { type: Number, required: true},
-    list: [
-       { type: String, required: true}
-    ] 
+    userId: { type: String, required: true},
+    list: [ String ] 
 });
 
 module.exports = mongoose.model('Todolist', todolistSchema);

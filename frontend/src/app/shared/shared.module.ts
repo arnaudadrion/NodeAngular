@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { UsernamePipe } from './pipes/username.pipe';
 
@@ -12,10 +12,13 @@ import { UsernamePipe } from './pipes/username.pipe';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     MaterialModule,
     ReactiveFormsModule
   ],
   exports: [
+    CommonModule,
+    FormsModule,
     MaterialModule,
     ReactiveFormsModule,
     UsernamePipe,

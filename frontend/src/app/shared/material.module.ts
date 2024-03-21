@@ -10,6 +10,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatRadioModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule
   ]
 })
 export class MaterialModule {}

@@ -12,7 +12,6 @@ import { AuthRoutingModule } from './auth-routing.module';
     LoginComponent
   ],
   imports: [
-    CommonModule,
     AuthRoutingModule,
     SharedModule
   ],
