@@ -17,6 +17,14 @@ export class TodolistService {
     }    
 
     addTask(data: IDialogTaskData) {
-        return this.http.post(`${environment.apiUrl}/todo/add`, data);
+        return this.http.post<{success: string, message: string}>(`${environment.apiUrl}/todo/add`, data);
+    }
+
+    updateOrder(data: {list: string[]}) {
+        return this.http.post<{success: string, message: string}>(`${environment.apiUrl}/todo/updateOrder`, data);
+    }
+
+    deleteTask(data: {task: string}) {
+        return this.http.post<{success: string, message: string}>(`${environment.apiUrl}/todo/delete`, data);
     }
 }

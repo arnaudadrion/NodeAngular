@@ -26,7 +26,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatSelectModule,
-    MatDialogModule
+    MatDialogModule,
   ]
 })
 export class MaterialModule {}

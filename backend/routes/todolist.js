@@ -5,6 +5,7 @@ const todolistCtrl = require('../controllers/todolist');
 
 router.get('/list', auth, todolistCtrl.list);
 router.post('/add', auth, todolistCtrl.addTask);
+router.post('/updateOrder', auth, todolistCtrl.updateOrder);
 router.post('/delete', auth, todolistCtrl.deleteTask);
 
 

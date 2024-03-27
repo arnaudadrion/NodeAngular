@@ -1,7 +1,6 @@
-const Todolist = require('../models/todolist');
+const Todolist = require('../models/Todolist');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-const todolist = require('../models/todolist');
 
 exports.list = (req, res, next) => {
     Todolist.findOne({
@@ -24,29 +23,69 @@ exports.addTask = (req, res, next) => {
         userId: req.auth.userId
     }).then(
         (todolist) => {
-            console.log(todolist)
             if (!todolist) {
                 todolist = new Todolist({
                     userId: req.auth.userId,
                     list: [ req.body.task ]
                 });
-console.log(todolist)
-                thing.save()
-                    .then(() => { console.log(546);res.status(201).json({message: 'Tache enregistrée !'})})
-                    .catch(error => { res.status(400).json( { error })})
             } else {
-
+                todolist.list.push(req.body.task);
             }
+
+            todolist.save()
+                .then(() => { res.status(201).json({ success: "true", message: 'Tache enregistrée !' })})
+                .catch(error => { res.status(400).json({ success: "false", message: error })})
         }
     ).catch(
         (error) => {
-            res.status(40).json({
+            res.status(404).json({
                 error: error
             })
         }
-    )
+    );
+};
+
+exports.updateOrder = (req, res, next) => {
+    Todolist.findOne({
+        userId: req.auth.userId
+    }).then(
+        (todolist) => {
+            todolist.list = req.body.list;
+            todolist.save()
+                .then(() => { res.status(201).json({ success: "true", message: 'Liste enregistrée !' })})
+                .catch(error => { res.status(400).json({ success: "false", message: error })})
+        }
+    ).catch(
+        (error) => {
+            res.status(404).json({
+                error: error
+            })
+        }
+    );
 };
 
 exports.deleteTask = (req, res, next) => {
-    
+    Todolist.findOne({
+        userId: req.auth.userId
+    }).then(
+        (todolist) => {
+            todolist.list.filter((value, index) => {
+                if (value === req.body.task) {
+                    todolist.list.splice(index, 1);
+                    return true;
+                }
+                return false;
+            });
+
+            todolist.save()
+                .then(() => { res.status(201).json({ success: "true", message: 'Tache supprimée !' })})
+                .catch(error => { res.status(400).json({ success: "false", message: error })})
+        }
+    ).catch(
+        (error) => {
+            res.status(404).json({
+                error: error
+            })
+        }
+    );
 };

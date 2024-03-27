@@ -8,6 +8,7 @@ import { TodolistService } from './services/todolist.service';
 import { SharedModule } from '../shared/shared.module';
 import { DialogBoxComponent } from './components/dialog-box/dialog-box.component';
 import { FormsModule } from '@angular/forms';
+import { CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -17,7 +18,9 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     SharedModule,
-    TodolistRoutingModule
+    TodolistRoutingModule,
+    CdkDropList, 
+    CdkDrag,
   ],
   exports: [
     TodolistComponent,
@@ -25,7 +28,7 @@ import { FormsModule } from '@angular/forms';
   ],
   providers: [
     TodolistResolver,
-    TodolistService
+    TodolistService,
   ]
 })
 export class TodolistModule { }

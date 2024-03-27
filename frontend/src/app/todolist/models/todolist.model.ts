@@ -1,5 +1,5 @@
 export class Todolist {
     list!: [
-        String
+        string
     ]
 }

@@ -1,7 +1,17 @@
 <h2>Ma TodoList <span><button (click)="openModal()">Ajouter une tache</button></span></h2>
-<div *ngIf="todolist$ | async as todolist; else elseBlock">
-    <p *ngFor="let listItem of todolist.list">{{ listItem }}</p>
-</div>
+
+<ng-container *ngIf="todolist$ | async ; else elseBlock" >
+    <div cdkDropList (cdkDropListDropped)="drop($event)">
+        @for (task of list; track task) {
+            <div class="box" cdkDrag>
+                <p class="task">{{ task }}</p>
+                <button mat-icon-button color="primary" (click)="onDelete(task)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        }
+    </div>
+</ng-container>
 
 <ng-template #elseBlock>
     <p>Pas de liste</p>
