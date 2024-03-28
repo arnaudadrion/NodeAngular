@@ -2,7 +2,7 @@
 
 <ng-container *ngIf="todolist$ | async ; else elseBlock" >
     <div cdkDropList (cdkDropListDropped)="drop($event)">
-        @for (task of list; track task) {
+        @for (task of list; track task;) {
             <div class="box" cdkDrag>
                 <p class="task">{{ task }}</p>
                 <button mat-icon-button color="primary" (click)="onDelete(task)">

@@ -5,13 +5,14 @@ import { TodolistService } from '../../services/todolist.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { SnackbarService } from '../../../core/services/snackbar.service';
+import { animate, group, query, state, style, transition, trigger, useAnimation } from '@angular/animations';
 
 @Component({
   selector: 'app-todolist',
   templateUrl: './todolist.component.html',
-  styleUrl: './todolist.component.scss'
+  styleUrl: './todolist.component.scss',
 })
 export class TodolistComponent {
   todolist$!: Observable<Todolist>
@@ -23,7 +24,7 @@ export class TodolistComponent {
     private todolistService: TodolistService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit() {
@@ -33,7 +34,6 @@ export class TodolistComponent {
         this.list = todolist.list
       })
     );
-    console.log(this.list)
   }
 
   openModal() {
@@ -50,7 +50,7 @@ export class TodolistComponent {
           if(response.success === "true") {
             this.todolist$ = this.todolistService.getTodolist().pipe(
               tap(todolist => {
-                this.openSnackBar(response.message, 'OK');
+                this.snackbarService.openSnackBar(response.message, 'OK');
                 this.list = todolist.list;
               })
             );
@@ -60,14 +60,10 @@ export class TodolistComponent {
     });
   }
 
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action);
-  }
-
   drop(event: CdkDragDrop<string[]>){
     moveItemInArray(this.list, event.previousIndex, event.currentIndex);
     this.todolistService.updateOrder({list: this.list}).subscribe(response => {
-      this.openSnackBar(response.message, 'OK');
+      this.snackbarService.openSnackBar(response.message, 'OK');
     });
   }
 
@@ -83,7 +79,7 @@ export class TodolistComponent {
         });
       }
 
-      this.openSnackBar(response.message, 'OK');
+      this.snackbarService.openSnackBar(response.message, 'OK');
     });
   }
 }

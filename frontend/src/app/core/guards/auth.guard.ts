@@ -15,7 +15,7 @@ export class AuthGuard {
     if (isLogged) {
       return true;
     } else {
-      this.router.navigateByUrl('/auth/login');
+      this.router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url }});
       return false;
     }
   }

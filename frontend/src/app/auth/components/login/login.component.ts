@@ -4,7 +4,8 @@ import { Observable, map, startWith, tap } from 'rxjs';
 import { confirmEqualValidator } from '../../../core/validators/confirm-equal.validator';
 import { AuthService } from '../../../core/services/auth.service';
 import { ICredential } from '../../../core/interfaces/credential.interface';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
-
+  
   mainForm!: FormGroup;
 
   choiceFormCtrl!: FormControl;
@@ -38,8 +39,14 @@ export class LoginComponent implements OnInit {
   showPasswordError$!: Observable<boolean>;
 
   loading = false;
+  // returnUrl!: string
   
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService, 
+    private router: Router, 
+    private route: ActivatedRoute,
+    private snackbarService: SnackbarService
+  ) {}
 
   ngOnInit(): void {
     this.initFormControls();
@@ -173,7 +180,15 @@ export class LoginComponent implements OnInit {
           this.loading = false;
           if (logged) {
             this.resetForm();
-            this.router.navigateByUrl('/');
+            this.route.queryParamMap.subscribe(params => {
+              const returnUrl = params.get('returnUrl');
+              if(returnUrl) {
+                this.router.navigateByUrl(returnUrl);
+              } else {
+                this.router.navigateByUrl('/');
+              }
+            });
+            
           } else {
             console.error('Echec de l\'enregistrement');
           }
