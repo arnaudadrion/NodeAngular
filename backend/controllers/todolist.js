@@ -1,6 +1,4 @@
 const Todolist = require('../models/Todolist');
-const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
 
 exports.list = (req, res, next) => {
     Todolist.findOne({

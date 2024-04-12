@@ -27,7 +27,7 @@ export class AppUserService {
     }
 
     removeUser(): void {
-        localStorage.removeItem('user');
+        localStorage.removeItem("user");
         this.setUser({firstname: '', lastname: ''});
     }
 }

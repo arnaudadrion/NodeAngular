@@ -23,6 +23,6 @@ export class HeaderComponent {
 
   logout() {
     this.tokenService.clearToken();
-    this.appUserService.removeUser()
+    this.appUserService.removeUser();
   }
 }

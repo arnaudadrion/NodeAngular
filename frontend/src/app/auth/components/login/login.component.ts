@@ -190,7 +190,7 @@ export class LoginComponent implements OnInit {
             });
             
           } else {
-            console.error('Echec de l\'enregistrement');
+            this.snackbarService.openSnackBar('Echec de login', 'OK');
           }
       })
       ).subscribe();
@@ -208,7 +208,7 @@ export class LoginComponent implements OnInit {
               if (saved) {
                 this.resetForm();
               } else {
-                console.error('Echec de l\'enregistrement');
+                this.snackbarService.openSnackBar('Echec de l\'enregistrement', 'OK');
               }
           })
         ).subscribe();

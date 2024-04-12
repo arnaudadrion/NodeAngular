@@ -33,7 +33,7 @@ export class AuthService {
   logUser(credential: ICredential): Observable<boolean> {
     return this.http.post<IToken>(`${environment.apiUrl}/auth/login`, credential).pipe(
       tap(response=> {
-        this.tokenService.saveToken(`${response.token}`);
+        this.tokenService.saveToken(`${response.token}`, `${response.expiresIn}`);
         const user = <AppUser>{firstname: `${response.firstname}`, lastname:`${response.lastname}`};
         this.appUserService.saveUser(user);
       }),

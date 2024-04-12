@@ -13,12 +13,29 @@ import { animate, group, query, state, style, transition, trigger, useAnimation 
   selector: 'app-todolist',
   templateUrl: './todolist.component.html',
   styleUrl: './todolist.component.scss',
+  animations: [
+    trigger('listItem', [
+      state(
+        "fadeInFlash",
+        style({
+          opacity: "1"
+        })
+      ),
+      transition("void => *", [
+        style({ transform: "translateY(20px)" }),
+        animate("500ms")
+      ])
+    ])
+  ]
 })
 export class TodolistComponent {
   todolist$!: Observable<Todolist>
   list!: string[];
 
   task!: string;
+
+  flag: boolean = true;
+  state: string = "fadeInFlash";
 
   constructor(
     private todolistService: TodolistService,
@@ -48,6 +65,9 @@ export class TodolistComponent {
 
         this.todolistService.addTask({task: this.task}).subscribe(response => {
           if(response.success === "true") {
+            if (this.flag) {
+              this.flag = !this.flag;
+            }
             this.todolist$ = this.todolistService.getTodolist().pipe(
               tap(todolist => {
                 this.snackbarService.openSnackBar(response.message, 'OK');
